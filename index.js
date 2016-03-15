@@ -7,10 +7,11 @@ const routes = require('./routes');
 const dispatcher = require('./lib/dispatcher');
 const EVENT = require('./lib/constants').EVENT;
 const User = require('./models/user');
+const path = require('path');
 
-dispatcher.on(EVENT.POST_CREATED, (id) => {
+/*dispatcher.on(EVENT.POST_CREATED, (id) => {
   console.log('post created', id);
-});
+});*/
 
 const mongodb_username = process.env.MONGODB_USERNAME || 'tabrath-blog';
 const mongodb_password = process.env.MONGODB_PASSWORD || 'tabrath-blog';
@@ -32,8 +33,10 @@ mongoose.connect(`mongodb://${mongodb_username}:${mongodb_password}@${mongodb_ho
     app.use('/api/users', routes.users);
     app.use('/api/posts', routes.posts);
 
+    app.use(express.static(path.resolve(__dirname, 'dist')));
+
     app.get('*', (req, res) => {
-      res.json({ message: 'hello world' });
+      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
     });
 
     app.emit('ready');
