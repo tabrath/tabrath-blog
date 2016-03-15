@@ -1,0 +1,56 @@
+const express = require('express');
+const User = require('../models/user');
+
+var route = express.Router();
+
+route.get('/', (req, res) => {
+  User.find({}, { password: 0 }, (err, users) => {
+    if (err) return res.sendStatus(500, err);
+
+    res.json(users);
+  });
+});
+
+route.get('/:id', (req, res) => {
+  User.findById(req.params.id, { password: 0 }, (err, user) => {
+    if (err) return res.sendStatus(500, err);
+
+    res.json(user);
+  });
+});
+
+route.post('/', (req, res) => {
+  var user = new User(req.body);
+  user.save((err) => {
+    if (err) return res.sendStatus(500, err);
+
+    res.sendStatus(200);
+  });
+});
+
+route.put('/:id', (req, res) => {
+  User.findById(req.params.id, (err, user) => {
+    if (err) return res.sendStatus(500, err);
+
+    Object.keys(req.body).forEach(key => {
+      if (user[key] && user[key] !== req.body[key])
+        user[key] = req.body[key];
+    });
+
+    user.save((err) => {
+      if (err) return res.sendStatus(500, err);
+
+      res.sendStatus(200);
+    });
+  });
+});
+
+route.del('/:id', (req, res) => {
+  User.remove({ _id: req.params.id }, (err) => {
+    if (err) return res.sendStatus(500, err);
+
+    res.sendStatus(200);
+  });
+});
+
+module.exports = route;

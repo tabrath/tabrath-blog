@@ -1,0 +1,20 @@
+{
+  "name": "tabrath-blog",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Trond Arne Bråthen <tabrath@gmail.com> (https://github.com/tabrath)",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "compression": "^1.6.1",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.7",
+    "morgan": "^1.7.0"
+  }
+}
