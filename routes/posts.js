@@ -45,7 +45,7 @@ route.put('/:id', (req, res) => {
   });
 });
 
-route.del('/:id', (req, res) => {
+route.delete('/:id', (req, res) => {
   Post.remove({ _id: req.params.id }, (err) => {
     if (err) return res.sendStatus(500, err);
 
