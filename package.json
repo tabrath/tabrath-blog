@@ -11,6 +11,7 @@
   "author": "Trond Arne Bråthen <tabrath@gmail.com> (https://github.com/tabrath)",
   "license": "MIT",
   "dependencies": {
+    "basic-auth": "^1.0.3",
     "body-parser": "^1.15.0",
     "compression": "^1.6.1",
     "express": "^4.13.4",
