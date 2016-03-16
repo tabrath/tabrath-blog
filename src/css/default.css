@@ -6,3 +6,7 @@ nav.top-nav a.page-title {
   line-height: 122px;
   font-size: 48px;
 }
+
+.divider {
+  clear: both;
+}

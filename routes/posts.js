@@ -13,13 +13,27 @@ function onerror(code, error, res) {
 }
 
 route.get('/', (req, res) => {
-  Post.find({}, { content: 0, comments: 0 })
-    .populate('author', 'email name avatar')
-    .exec((err, posts) => {
-      if (err) return onerror(500, err, res);
+  var limit = 10;
+  var page = Math.max(0, req.query.page || 0);
+  var offset = limit * page;
 
-      res.json(posts);
-    });
+  Post.count({}, (err, count) => {
+    if (err) return onerror(500, err, res);
+
+    if (offset >= count)
+      return onerror(500, new Error('Invalid page'), res);
+
+    Post.find({}, { content: 0, comments: 0 })
+      .populate('author', 'email name avatar')
+      .sort({ dateCreated: -1 })
+      .skip(offset)
+      .limit(limit)
+      .exec((err, posts) => {
+        if (err) return onerror(500, err, res);
+
+        res.json({ posts, page, pages: Math.round(count / limit) });
+      });
+  });
 });
 
 route.get('/:id', (req, res) => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import PostStore from '../stores/PostStore';
 import PostItem from './PostItem';
+import Pagination from './Pagination';
 
 export default class PostList extends React.Component {
   constructor() {
@@ -8,14 +9,26 @@ export default class PostList extends React.Component {
 
     this.state = {
       error: null,
-      posts: []
+      posts: [],
+      page: 0,
+      pages: 0
     };
+
+    this.onPageChange = this.onPageChange.bind(this);
+  }
+
+  fetch(page) {
+    PostStore.getAll(page, (error, data) => {
+      this.setState({ error, posts: data.posts, page: data.page, pages: data.pages });
+    });
   }
 
   componentDidMount() {
-    PostStore.getAll((error, posts) => {
-      this.setState({ error, posts });
-    });
+    this.fetch(this.state.page);
+  }
+
+  onPageChange(page) {
+    this.fetch(page);
   }
 
   render() {
@@ -26,6 +39,7 @@ export default class PostList extends React.Component {
       <div>
         {error}
         {items}
+        <Pagination page={this.state.page} pages={this.state.pages} onChange={this.onPageChange} />
       </div>
     );
   }
