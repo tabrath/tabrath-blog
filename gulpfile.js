@@ -58,7 +58,7 @@ gulp.task('watch', ['build', 'server'], () => {
   gulp.watch(source + '/**/*.html', ['html']);
   gulp.watch(source + '/css/*.css', ['css']);
   gulp.watch(source + '/img/*.*', ['img']);
-  gulp.watch(source + '/*js/*.js', ['js']);
+  gulp.watch(source + '/js/**/*.js', ['js']);
 });
 
 gulp.task('default', ['build']);
